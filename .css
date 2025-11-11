@@ -1,159 +1,126 @@
 body {
-    /* 画面全体の背景とフォントの設定 */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7f6;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f0f2f5;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    height: 100vh;
     margin: 0;
-    padding: 20px;
 }
 
 .quiz-container {
-    /* クイズカード全体のデザイン */
     background-color: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 500px;
-    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    width: 90%;
+    max-width: 600px;
+    padding: 24px;
+    box-sizing: border-box;
 }
 
-/* --- ヘッダー・情報 --- */
-.quiz-header { 
-    margin-bottom: 20px; 
-}
-
-.category {
-    /* 「地理」タグのデザイン */
-    background-color: #e0e0e0;
-    color: #333;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: bold;
-    display: inline-block;
-}
-
-.hearts {
-    /* ハートアイコンの配置 */
-    display: flex;
-    gap: 5px;
-    float: right;
-    margin-top: 5px;
-}
-.heart {
-    color: #ff4b5c; /* 赤いハートの色 */
-    font-size: 24px;
-}
-
-.score-info {
-    /* スコアと問題番号の行 */
+.quiz-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 15px;
-    margin-top: 30px;
-    clear: both; /* float解除 */
+    margin-bottom: 16px;
 }
 
-.trophy {
-    color: #ff9800;
-    font-size: 18px;
-    font-weight: bold;
+.subject {
+    background-color: #eee;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.9em;
+    font-weight: 500;
 }
 
-.question-count { 
-    font-size: 16px; 
-    color: #666;
+.stats {
+    font-size: 0.9em;
+    color: #555;
+    display: flex;
+    gap: 12px;
+    align-items: center;
 }
 
-/* --- 問題文 --- */
-.question-section { 
-    margin-bottom: 30px; 
+#lives {
+    color: #e53935; /* 赤色 */
+    font-size: 1.2em;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin-bottom: 20px;
 }
 
 #question-text {
-    font-size: 20px;
-    font-weight: 500;
+    font-size: 1.3em;
+    font-weight: 600;
+    margin-bottom: 20px;
     color: #333;
-    line-height: 1.6;
-    margin: 0;
 }
 
-
-/* --- 選択肢ボタンのスタイル --- */
-.options-section {
+#options-container {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
 }
 
-.option-button {
-    /* ボタンの基本デザイン */
+.option-btn {
     width: 100%;
+    padding: 15px;
+    font-size: 1em;
     text-align: left;
-    background-color: #ffffff;
+    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 15px 20px;
-    font-size: 16px;
-    color: #333;
     cursor: pointer;
     transition: background-color 0.2s, border-color 0.2s;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    
-    display: flex; 
-    align-items: center;
-    margin: 0; 
 }
 
-.option-button:hover:not(:disabled) {
-    border-color: #007bff;
+.option-btn:hover:not(:disabled) {
+    background-color: #f9f9f9;
+    border-color: #ccc;
 }
 
-.choice-label {
-    /* A, B, C, D のラベルデザイン */
-    background-color: #007bff;
-    color: #ffffff;
-    font-weight: bold;
-    font-size: 14px;
-    padding: 3px 8px;
-    border-radius: 4px;
-    margin-right: 15px;
-    min-width: 14px;
+.option-btn.correct {
+    background-color: #e8f5e9; /* 薄い緑 */
+    border-color: #4caf50; /* 緑 */
+    color: #2e7d32;
+    font-weight: 600;
+}
+
+.option-btn.incorrect {
+    background-color: #ffebee; /* 薄い赤 */
+    border-color: #f44336; /* 赤 */
+    color: #c62828;
+    font-weight: 600;
+}
+
+.option-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.9;
+}
+
+#feedback-area {
+    margin-top: 20px;
     text-align: center;
 }
 
-/* --- 回答後のスタイル --- */
-
-/* 正解時のスタイル（緑色）*/
-.option-button.correct {
-    background-color: #d4edda;
-    border-color: #4CAF50;
-    color: #155724;
-    font-weight: bold;
+#next-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-.option-button.correct .choice-label {
-    background-color: #4CAF50;
+#next-btn:hover {
+    background-color: #0056b3;
 }
 
-/* 不正解時のスタイル（赤色）*/
-.option-button.incorrect {
-    background-color: #f8d7da;
-    border-color: #f44336;
-    color: #721c24;
-}
-
-.option-button.incorrect .choice-label {
-    background-color: #f44336;
-}
-
-/* ボタン無効化のスタイル（回答後クリック不可にする）*/
-.option-button:disabled, .option-button.disabled {
-    pointer-events: none;
-    opacity: 0.7;
+.hide {
+    display: none;
 }
