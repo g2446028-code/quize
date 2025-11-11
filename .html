@@ -1,23 +1,40 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>クイズアプリ</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地理クイズ</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="card" id="quiz-card">
-    <div class="header">
-      <span class="badge" id="category">地理</span>
-      <span class="hearts" id="lives">❤️❤️❤️</span>
-    </div>
-    <p class="score" id="score">スコア: 0</p>
-    <p id="progress">問題 1 / 15</p>
-    <p class="question" id="question">日本で一番高い山は何ですか？</p>
-    <div id="options"></div>
-  </div>
 
-  <script src="script.js"></script>
+    <div class="quiz-container">
+        <header class="quiz-header">
+            <span class="category-tag">地理</span>
+            <div class="hearts">
+                <span class="heart-icon active">❤️</span>
+                <span class="heart-icon active">❤️</span>
+                <span class="heart-icon active">❤️</span>
+            </div>
+        </header>
+        
+        <div class="quiz-info">
+            <p class="score-display">🏆 スコア: <span id="score">0</span></p>
+            <p class="question-number">問題 <span id="current-question">1</span> / 15</p>
+        </div>
+
+        <div class="question-box">
+            <p class="question-text">日本で一番高い山は何ですか？</p>
+        </div>
+
+        <div class="options-container" id="options-container">
+            <div class="option-item" data-answer="correct">富士山</div>
+            <div class="option-item" data-answer="incorrect">北岳</div>
+            <div class="option-item" data-answer="incorrect">奥穂高岳</div>
+            <div class="option-item" data-answer="incorrect">槍ヶ岳</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
