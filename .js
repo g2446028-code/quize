@@ -1,4 +1,4 @@
-// クイズデータ (画像の問題を参考に作成)
+// クイズデータ
 const quizData = [
     {
         question: "日本で一番高い山は何ですか？",
@@ -10,12 +10,17 @@ const quizData = [
         options: ["瀬戸大橋", "来島海峡大橋", "明石海峡大橋", "大鳴門橋"],
         answer: "明石海峡大橋"
     },
-    // クイズデータをここに追加していく...
+    {
+        question: "日本で最も面積の大きい都道府県はどこですか？",
+        options: ["岩手県", "福島県", "長野県", "北海道"],
+        answer: "北海道"
+    }
+    // ここにクイズデータを追加してください（合計15問推奨）
 ];
 
 let currentQuestionIndex = 0;
 let score = 0;
-const totalQuestions = 15; // アプリの総問題数
+const totalQuestions = 15; // アプリの総問題数（quizDataの数に合わせて調整してください）
 
 // DOM要素の取得
 const questionText = document.getElementById('question-text');
@@ -29,11 +34,11 @@ totalQuestionsDisplay.textContent = totalQuestions;
 
 // 問題を表示する関数
 function loadQuestion() {
-    // データが尽きたら終了
-    if (currentQuestionIndex >= quizData.length) {
-        // 全問終了後の処理
-        questionText.textContent = `クイズ終了！あなたのスコアは ${score} 点です。`;
-        optionsContainer.innerHTML = ''; // 選択肢を消す
+    // 全問終了後の処理
+    if (currentQuestionIndex >= totalQuestions || currentQuestionIndex >= quizData.length) {
+        questionText.textContent = `クイズ終了！最終スコアは ${score} 点です。`;
+        optionsContainer.innerHTML = '';
+        currentQuestionDisplay.textContent = Math.min(currentQuestionIndex + 1, totalQuestions); // 15/15など表示
         return;
     }
     
@@ -52,6 +57,7 @@ function loadQuestion() {
         const button = document.createElement('button');
         button.classList.add('option-button');
         button.textContent = option;
+        // イベントリスナーを設定
         button.addEventListener('click', () => checkAnswer(button, option, currentQuiz.answer));
         optionsContainer.appendChild(button);
     });
@@ -59,7 +65,7 @@ function loadQuestion() {
 
 // 答えをチェックする関数
 function checkAnswer(clickedButton, selectedOption, correctAnswer) {
-    // 全てのボタンを無効化（二重クリック防止）
+    // 全てのボタンを無効化
     disableOptions();
 
     if (selectedOption === correctAnswer) {
@@ -70,7 +76,7 @@ function checkAnswer(clickedButton, selectedOption, correctAnswer) {
     } else {
         // 不正解
         clickedButton.classList.add('incorrect');
-        // 正解のボタンを探してハイライト
+        // 正解のボタンをハイライト
         highlightCorrectAnswer(correctAnswer);
     }
 
