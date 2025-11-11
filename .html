@@ -3,39 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>地理クイズ</title>
+    <title>To-Do List</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="quiz-container">
-        <div class="quiz-header">
-            <span class="subject">地理</span>
-            <div class="stats">
-                <span id="score">スコア: 0</span>
-                <span id="lives">❤️❤️❤️</span>
-                <span id="progress">問題 1 / 15</span>
-            </div>
-        </div>
-
-        <hr>
-
-        <div id="question-area">
-            <p id="question-text">日本で一番高い山は何ですか？</p>
-        </div>
-
-        <div id="options-container">
-            </div>
-
-        <div id="feedback-area">
-            <button id="next-btn" class="hide">次の問題へ</button>
-        </div>
-
-        <div id="result-area" class="hide">
-            <h2>ゲーム終了</h2>
-            <p>最終スコア: <span id="final-score">0</span></p>
-            <button id="restart-btn">もう一度挑戦</button>
-        </div>
+    <div class="todo-container">
+        <header class="app-header">
+            <h1>My To-Do List</h1>
+        </header>
+        
+        <form class="todo-form" id="todo-form">
+            <input type="text" id="todo-input" placeholder="新しいタスクを入力..." autocomplete="off">
+            <button type="submit" class="add-btn">追加</button>
+        </form>
+        
+        <main class="task-list-container">
+            <ul id="task-list">
+                </ul>
+        </main>
     </div>
 
     <script src="script.js"></script>
