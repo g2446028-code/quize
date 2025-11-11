@@ -122,3 +122,24 @@ body {
     pointer-events: none; /* 回答後はクリック不可に */
     opacity: 0.7;
 }
+
+/* style.css */
+
+/* すべての選択肢が他の要素より前面にあることを保証 */
+.option-item {
+    /* ... 既存のスタイル ... */
+    position: relative; /* z-indexを有効にするため */
+    z-index: 10;       /* 高いz-indexを指定 */
+}
+
+/* ポインターイベントが意図せず無効になっていないか確認 */
+.quiz-container {
+    /* ... 既存のスタイル ... */
+    pointer-events: auto; /* 親要素が子要素のクリックを妨げていないか確認 */
+}
+
+/* 無効化（回答後）のスタイルはそのまま */
+.option-item.disabled {
+    pointer-events: none; /* 回答後はクリック不可にする */
+    opacity: 0.7;
+}
