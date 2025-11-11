@@ -10,29 +10,25 @@
 
     <div class="quiz-container">
         <header class="quiz-header">
-            <span class="category-tag">地理</span>
+            <span class="category">地理</span>
             <div class="hearts">
-                <span class="heart-icon active">❤️</span>
-                <span class="heart-icon active">❤️</span>
-                <span class="heart-icon active">❤️</span>
+                <span class="heart">❤️</span>
+                <span class="heart">❤️</span>
+                <span class="heart">❤️</span>
+            </div>
+            <div class="score-info">
+                <span class="trophy">🏆 スコア: <span id="score">0</span></span>
+                <span class="question-count">問題 <span id="current-question">1</span> / <span id="total-questions">15</span></span>
             </div>
         </header>
-        
-        <div class="quiz-info">
-            <p class="score-display">🏆 スコア: <span id="score">0</span></p>
-            <p class="question-number">問題 <span id="current-question">1</span> / 15</p>
+
+        <div class="question-section">
+            <p id="question-text">ここに問題文が表示されます。</p>
         </div>
 
-        <div class="question-box">
-            <p class="question-text">日本で一番高い山は何ですか？</p>
-        </div>
+        <div class="options-section" id="options-container">
+            </div>
 
-        <div class="options-container" id="options-container">
-            <div class="option-item" data-answer="correct">富士山</div>
-            <div class="option-item" data-answer="incorrect">北岳</div>
-            <div class="option-item" data-answer="incorrect">奥穂高岳</div>
-            <div class="option-item" data-answer="incorrect">槍ヶ岳</div>
-        </div>
     </div>
 
     <script src="script.js"></script>
