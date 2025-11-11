@@ -1,111 +1,83 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f2f5; 
-    display: flex;
-    justify-content: center; /* 中央寄せ（水平） */
-    align-items: center; /* 中央寄せ（垂直） */
-    min-height: 100vh;
-    margin: 0;
+  font-family: "Noto Sans JP", sans-serif;
+  background: #f5f7ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
 }
 
-.quiz-container {
-    width: 90%;
-    max-width: 600px; /* PCでの最大幅 */
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin: 20px auto; /* 上下のマージンと左右の自動マージンで中央を維持 */
+.card {
+  background: white;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 420px;
+  text-align: center;
 }
 
-/* ヘッダーデザイン */
-.quiz-header {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #eee;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
-.category {
-    background-color: #e0e0e0;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.9em;
-    font-weight: bold;
-    margin-right: auto;
+.badge {
+  background: #e0ebff;
+  color: #004aad;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-weight: bold;
 }
 
 .hearts {
-    margin-left: 10px;
+  color: #ff4d4d;
+  font-size: 20px;
 }
 
-.heart {
-    color: #ff4d4d;
-    font-size: 1.2em;
+.question {
+  font-size: 18px;
+  margin: 16px 0;
 }
 
-.score-info {
-    width: 100%; 
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-    font-size: 0.9em;
+.option {
+  width: 100%;
+  padding: 12px;
+  margin: 6px 0;
+  border: none;
+  border-radius: 8px;
+  background: #e8e8e8;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s;
 }
 
-.trophy {
-    color: #ffd700;
+.option:hover {
+  background: #d0d0d0;
 }
 
-/* 問題文のデザイン */
-.question-section {
-    padding: 30px 0;
-    font-size: 1.2em;
-    font-weight: 600;
-    color: #333;
+.score {
+  font-weight: bold;
+  margin-bottom: 8px;
 }
 
-/* 選択肢ボタンのデザイン */
-.options-section {
-    display: flex;
-    flex-direction: column; /* 縦に並べる */
-    gap: 15px;
+.result {
+  font-size: 20px;
+  margin-bottom: 20px;
 }
 
-.option-button {
-    width: 100%;
-    padding: 15px;
-    font-size: 1em;
-    text-align: left;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.2s, border-color 0.2s;
-    outline: none;
+button.retry {
+  padding: 10px 16px;
+  background: #4b8cff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
-.option-button:hover:not(.disabled) {
-    background-color: #e6f7ff;
-    border-color: #91d5ff;
-}
-
-/* 正解・不正解時のスタイル */
-.correct {
-    background-color: #e6ffe6;
-    border-color: #52c41a;
-    color: #000;
-    font-weight: bold;
-}
-
-.incorrect {
-    background-color: #ffeded;
-    border-color: #ff4d4f;
-    color: #000;
-    font-weight: bold;
-}
-
-.disabled {
-    pointer-events: none; /* クリック操作を無効化 */
+button.retry:hover {
+  background: #3a70cc;
 }
