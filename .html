@@ -9,26 +9,33 @@
 <body>
 
     <div class="quiz-container">
-        <header class="quiz-header">
-            <span class="category">地理</span>
-            <div class="hearts">
-                <span class="heart">❤️</span>
-                <span class="heart">❤️</span>
-                <span class="heart">❤️</span>
+        <div class="quiz-header">
+            <span class="subject">地理</span>
+            <div class="stats">
+                <span id="score">スコア: 0</span>
+                <span id="lives">❤️❤️❤️</span>
+                <span id="progress">問題 1 / 15</span>
             </div>
-            <div class="score-info">
-                <span class="trophy">🏆 スコア: <span id="score">0</span></span>
-                <span class="question-count">問題 <span id="current-question">1</span> / <span id="total-questions">15</span></span>
-            </div>
-        </header>
-
-        <div class="question-section">
-            <p id="question-text">ここに問題文が表示されます。</p>
         </div>
 
-        <div class="options-section" id="options-container">
+        <hr>
+
+        <div id="question-area">
+            <p id="question-text">日本で一番高い山は何ですか？</p>
+        </div>
+
+        <div id="options-container">
             </div>
 
+        <div id="feedback-area">
+            <button id="next-btn" class="hide">次の問題へ</button>
+        </div>
+
+        <div id="result-area" class="hide">
+            <h2>ゲーム終了</h2>
+            <p>最終スコア: <span id="final-score">0</span></p>
+            <button id="restart-btn">もう一度挑戦</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
