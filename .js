@@ -1,107 +1,84 @@
-// クイズデータ
-const quizData = [
-    {
-        question: "日本で一番高い山は何ですか？",
-        options: ["富士山", "北岳", "奥穂高岳", "槍ヶ岳"],
-        answer: "富士山"
-    },
-    {
-        question: "本州と四国を結ぶ橋のうち、最も東にあるのはどれですか？",
-        options: ["瀬戸大橋", "来島海峡大橋", "明石海峡大橋", "大鳴門橋"],
-        answer: "明石海峡大橋"
-    },
-    {
-        question: "日本で最も面積の大きい都道府県はどこですか？",
-        options: ["岩手県", "福島県", "長野県", "北海道"],
-        answer: "北海道"
-    }
-    // ここにクイズデータを追加してください（合計15問推奨）
+const questions = [
+  {
+    question: "日本で一番高い山は何ですか？",
+    options: ["富士山", "北岳", "奥穂高岳", "槍ヶ岳"],
+    correct: 0,
+    category: "地理"
+  },
+  {
+    question: "日本の首都はどこですか？",
+    options: ["大阪", "東京", "京都", "札幌"],
+    correct: 1,
+    category: "地理"
+  },
+  {
+    question: "日本の最北端にある島はどれ？",
+    options: ["択捉島", "与那国島", "佐渡島", "小笠原諸島"],
+    correct: 0,
+    category: "地理"
+  }
 ];
 
-let currentQuestionIndex = 0;
+let current = 0;
 let score = 0;
-const totalQuestions = 15; // アプリの総問題数（quizDataの数に合わせて調整してください）
+let lives = 3;
 
-// DOM要素の取得
-const questionText = document.getElementById('question-text');
-const optionsContainer = document.getElementById('options-container');
-const scoreDisplay = document.getElementById('score');
-const currentQuestionDisplay = document.getElementById('current-question');
-const totalQuestionsDisplay = document.getElementById('total-questions');
+const categoryEl = document.getElementById("category");
+const livesEl = document.getElementById("lives");
+const scoreEl = document.getElementById("score");
+const progressEl = document.getElementById("progress");
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+const cardEl = document.getElementById("quiz-card");
 
-// 初期設定
-totalQuestionsDisplay.textContent = totalQuestions;
+function renderQuestion() {
+  const q = questions[current];
+  categoryEl.textContent = q.category;
+  questionEl.textContent = q.question;
+  progressEl.textContent = `問題 ${current + 1} / ${questions.length}`;
+  scoreEl.textContent = `スコア: ${score}`;
+  livesEl.textContent = "❤️".repeat(lives);
 
-// 問題を表示する関数
-function loadQuestion() {
-    // 全問終了後の処理
-    if (currentQuestionIndex >= totalQuestions || currentQuestionIndex >= quizData.length) {
-        questionText.textContent = `クイズ終了！最終スコアは ${score} 点です。`;
-        optionsContainer.innerHTML = '';
-        currentQuestionDisplay.textContent = Math.min(currentQuestionIndex + 1, totalQuestions); // 15/15など表示
-        return;
-    }
-    
-    // 現在の問題データを取得
-    const currentQuiz = quizData[currentQuestionIndex];
-    
-    // 問題文と問題番号の更新
-    questionText.textContent = currentQuiz.question;
-    currentQuestionDisplay.textContent = currentQuestionIndex + 1;
-    
-    // 選択肢コンテナを空にする
-    optionsContainer.innerHTML = '';
-
-    // 選択肢ボタンを作成して追加
-    currentQuiz.options.forEach(option => {
-        const button = document.createElement('button');
-        button.classList.add('option-button');
-        button.textContent = option;
-        // イベントリスナーを設定
-        button.addEventListener('click', () => checkAnswer(button, option, currentQuiz.answer));
-        optionsContainer.appendChild(button);
-    });
+  optionsEl.innerHTML = "";
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.className = "option";
+    btn.textContent = opt;
+    btn.onclick = () => handleAnswer(i);
+    optionsEl.appendChild(btn);
+  });
 }
 
-// 答えをチェックする関数
-function checkAnswer(clickedButton, selectedOption, correctAnswer) {
-    // 全てのボタンを無効化
-    disableOptions();
+function handleAnswer(index) {
+  const q = questions[current];
+  if (index === q.correct) {
+    score++;
+  } else {
+    lives--;
+    if (lives <= 0) return showResult();
+  }
 
-    if (selectedOption === correctAnswer) {
-        // 正解
-        clickedButton.classList.add('correct');
-        score++;
-        scoreDisplay.textContent = score;
-    } else {
-        // 不正解
-        clickedButton.classList.add('incorrect');
-        // 正解のボタンをハイライト
-        highlightCorrectAnswer(correctAnswer);
-    }
-
-    // 1秒後に次の問題へ
-    setTimeout(() => {
-        currentQuestionIndex++;
-        loadQuestion();
-    }, 1000);
+  current++;
+  if (current < questions.length) {
+    renderQuestion();
+  } else {
+    showResult();
+  }
 }
 
-// 全てのボタンを無効化する関数
-function disableOptions() {
-    Array.from(optionsContainer.children).forEach(button => {
-        button.classList.add('disabled');
-    });
+function showResult() {
+  cardEl.innerHTML = `
+    <div class="result">🎉 結果発表 🎉</div>
+    <p>スコア: ${score} / ${questions.length}</p>
+    <button class="retry" onclick="restart()">もう一度</button>
+  `;
 }
 
-// 正解のボタンをハイライトする関数
-function highlightCorrectAnswer(correctAnswer) {
-    Array.from(optionsContainer.children).forEach(button => {
-        if (button.textContent === correctAnswer) {
-            button.classList.add('correct');
-        }
-    });
+function restart() {
+  current = 0;
+  score = 0;
+  lives = 3;
+  renderQuestion();
 }
 
-// アプリ起動時に最初の問題を読み込む
-loadQuestion();
+renderQuestion();
