@@ -1,0 +1,115 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5; /* 背景色 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.quiz-container {
+    width: 90%;
+    max-width: 600px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+/* ヘッダーデザイン */
+.quiz-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.category {
+    background-color: #e0e0e0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-weight: bold;
+    margin-right: auto; /* 左寄せ */
+}
+
+.hearts {
+    margin-left: 10px;
+}
+
+.heart {
+    color: #ff4d4d;
+    font-size: 1.2em;
+}
+
+.score-info {
+    width: 100%; /* フル幅にして次の行へ */
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+.trophy, .question-count {
+    color: #555;
+    font-weight: 500;
+}
+
+.trophy {
+    color: #ffd700; /* トロフィーの色 */
+}
+
+/* 問題文のデザイン */
+.question-section {
+    padding: 30px 0;
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #333;
+}
+
+/* 選択肢ボタンのデザイン */
+.options-section {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.option-button {
+    width: 100%;
+    padding: 15px;
+    font-size: 1em;
+    text-align: left;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    outline: none; /* フォーカス時の青い枠線を消す */
+}
+
+.option-button:hover {
+    background-color: #e6f7ff;
+    border-color: #91d5ff;
+}
+
+/* 正解・不正解時のスタイル */
+.correct {
+    background-color: #e6ffe6; /* 薄い緑 */
+    border-color: #52c41a; /* 緑 */
+    color: #000;
+    font-weight: bold;
+}
+
+.incorrect {
+    background-color: #ffeded; /* 薄い赤 */
+    border-color: #ff4d4f; /* 赤 */
+    color: #000;
+    font-weight: bold;
+}
+
+.disabled {
+    pointer-events: none; /* クリック無効 */
+}
