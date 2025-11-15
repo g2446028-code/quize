@@ -1,123 +1,119 @@
-/* 基本設定 */
+/* 全体のリセットとフォント設定 */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f0f2f5;
+    font-family: sans-serif;
+    background-color: #f0f2f5; /* 背景を少し灰色に */
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 30px;
+    justify-content: center; /* 中央寄せ */
+    align-items: center;
     min-height: 100vh;
-    box-sizing: border-box;
-}
-
-.todo-container {
-    width: 100%;
-    max-width: 500px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    overflow: hidden;
-}
-
-/* ヘッダー */
-.app-header {
-    background-color: #4a90e2; /* テーマカラー */
-    color: white;
-    padding: 20px;
-    text-align: center;
-}
-
-.app-header h1 {
     margin: 0;
-    font-size: 24px;
 }
 
-/* 入力フォーム */
-.todo-form {
+/* クイズ全体を囲むカードのデザイン */
+.quiz-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 16px; /* 角丸 */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* 影で浮いているように見せる */
+    width: 100%;
+    max-width: 500px; /* 最大幅を設定 */
+}
+
+/* ヘッダーのレイアウト（左にタグ、右にハート） */
+.quiz-header {
     display: flex;
-    padding: 20px;
-    border-bottom: 1px solid #eee;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-#todo-input {
-    flex-grow: 1; /* 入力欄が幅いっぱいに広がる */
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 12px 15px;
-    font-size: 16px;
-    margin-right: 10px;
-}
-#todo-input:focus {
-    outline: none;
-    border-color: #4a90e2;
+/* カテゴリータグのデザイン */
+.category-tag {
+    background-color: #eee;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-weight: bold;
 }
 
-.add-btn {
-    background-color: #4a90e2;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 0 20px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-.add-btn:hover {
-    background-color: #357abd;
+/* スコアと問題数の情報部分 */
+.score-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    font-size: 1rem;
+    color: #555;
 }
 
-/* タスク一覧 */
-.task-list-container {
-    padding: 20px;
+/* 問題文のスタイル */
+#question-text {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #333;
 }
 
-#task-list {
+/* 選択肢のリスト（箇条書きマークを削除） */
+#options-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.task-item {
-    display: flex;
-    align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid #f0f0f0;
-}
-.task-item:last-child {
-    border-bottom: none;
-}
-
-/* タスクテキスト */
-.task-text {
-    flex-grow: 1;
-    font-size: 16px;
-    color: #333;
-    cursor: pointer; /* クリックで完了できるように */
-    user-select: none; /* テキスト選択を防ぐ */
+/* 各選択肢のボタン */
+.option-button {
+    width: 100%;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    text-align: left;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
 
-/* 完了済みタスクのスタイル */
-.task-item.completed .task-text {
-    text-decoration: line-through;
-    color: #999;
+/* マウスを乗せたとき（ホバー）と押したとき */
+.option-button:hover:not(:disabled) {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
-/* 削除ボタン */
-.delete-btn {
-    background-color: #ff4757;
+/* 正解/不正解時のボタンの色（JavaScriptでクラスを付与） */
+.option-button.correct {
+    background-color: #d4edda; /* 薄い緑 */
+    border-color: #28a745; /* 濃い緑 */
+    color: #155724;
+}
+
+.option-button.incorrect {
+    background-color: #f8d7da; /* 薄い赤 */
+    border-color: #dc3545; /* 濃い赤 */
+    color: #721c24;
+}
+
+/* メッセージと次へボタン */
+.result-message {
+    margin: 20px 0;
+    font-weight: bold;
+    text-align: center;
+}
+
+.next-button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 50%; /* 丸いボタン */
-    width: 28px;
-    height: 28px;
-    font-size: 14px;
-    font-weight: bold;
+    border-radius: 8px;
+    font-size: 1.1rem;
     cursor: pointer;
-    margin-left: 10px;
-    flex-shrink: 0; /* ボタンが縮まないように */
-    transition: background-color 0.2s;
+    margin-top: 20px;
 }
-.delete-btn:hover {
-    background-color: #e03141;
+
+/* 非表示にするクラス */
+.hidden {
+    display: none !important;
 }

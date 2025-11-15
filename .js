@@ -1,91 +1,169 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const todoForm = document.getElementById('todo-form');
-    const todoInput = document.getElementById('todo-input');
-    const taskList = document.getElementById('task-list');
+// --- 1. クイズデータ（CSVを使う場合はこの部分を置き換えます） ---
+const quizData = [
+    {
+        question: "日本で一番高い山は何ですか？",
+        options: ["富士山", "北岳", "奥穂高岳", "槍ヶ岳"],
+        answer: "富士山"
+    },
+    {
+        question: "日本の首都はどこですか？",
+        options: ["大阪", "京都", "東京", "名古屋"],
+        answer: "東京"
+    },
+    {
+        question: "光の速さは秒速およそ何kmですか？",
+        options: ["30万km", "15万km", "100万km", "1万km"],
+        answer: "30万km"
+    }
+    // ここに問題を追加していきます
+];
+const TOTAL_QUESTIONS = quizData.length;
 
-    // 1. ローカルストレージからタスクを読み込む
-    loadTasks();
+// --- 2. 状態管理変数 ---
+let currentQuestionIndex = 0;
+let score = 0;
+let lives = 3;
+let canClick = true; // 連続クリックを防ぐためのフラグ
 
-    // フォーム送信（タスク追加）時の処理
-    todoForm.addEventListener('submit', (e) => {
-        e.preventDefault(); // フォームのデフォルトの送信を防ぐ
-        
-        const taskText = todoInput.value.trim(); // 入力値（前後の空白削除）
+// --- 3. HTML要素の取得 ---
+const questionText = document.getElementById('question-text');
+const optionsList = document.getElementById('options-list');
+const scoreDisplay = document.getElementById('score-display');
+const questionCount = document.getElementById('question-count');
+const livesDisplay = document.getElementById('lives-display');
+const resultMessage = document.getElementById('result-message');
+const nextButton = document.getElementById('next-button');
 
-        if (taskText !== '') {
-            addTask(taskText); // タスクを追加
-            saveTasks();       // 保存
-            todoInput.value = ''; // 入力欄を空にする
+// --- 4. ライフ表示の更新 ---
+function updateLivesDisplay() {
+    livesDisplay.innerHTML = ''; // 一旦ハートをクリア
+    for (let i = 0; i < 3; i++) {
+        const heart = document.createElement('span');
+        heart.textContent = '❤️';
+        if (i >= lives) {
+            // 残機がないハートは灰色にするなどの処理も可能
+            heart.style.opacity = 0.3; 
         }
+        livesDisplay.appendChild(heart);
+    }
+}
+
+// --- 5. 問題を表示する ---
+function displayQuestion() {
+    // 最終問題が終了したら
+    if (currentQuestionIndex >= TOTAL_QUESTIONS) {
+        endQuiz();
+        return;
+    }
+    
+    // 初期状態に戻す
+    canClick = true;
+    resultMessage.classList.add('hidden');
+    nextButton.classList.add('hidden');
+    optionsList.innerHTML = '';
+    
+    const currentQuiz = quizData[currentQuestionIndex];
+    
+    // 問題文とカウントを更新
+    questionText.textContent = currentQuiz.question;
+    scoreDisplay.textContent = `🏆 スコア: ${score}`;
+    questionCount.textContent = `問題 ${currentQuestionIndex + 1} / ${TOTAL_QUESTIONS}`;
+
+    // 選択肢を生成
+    currentQuiz.options.forEach(optionText => {
+        const li = document.createElement('li');
+        const button = document.createElement('button');
+        button.textContent = optionText;
+        button.className = 'option-button';
+        
+        // クリックイベントを設定
+        button.addEventListener('click', () => checkAnswer(button, optionText, currentQuiz.answer));
+        
+        li.appendChild(button);
+        optionsList.appendChild(li);
     });
+}
 
-    // タスクを追加する関数（DOM操作）
-    function addTask(text, isCompleted = false) {
-        // li要素（タスク項目）を作成
-        const taskItem = document.createElement('li');
-        taskItem.className = 'task-item';
-        if (isCompleted) {
-            taskItem.classList.add('completed');
-        }
+// --- 6. 解答をチェックする ---
+function checkAnswer(button, selectedOption, correctAnswer) {
+    if (!canClick) return; // 連続クリックを無視
+    canClick = false;
+    
+    // 全てのボタンをクリック不可にする
+    document.querySelectorAll('.option-button').forEach(btn => btn.disabled = true);
 
-        // タスクテキスト部分を作成
-        const taskTextSpan = document.createElement('span');
-        taskTextSpan.className = 'task-text';
-        taskTextSpan.textContent = text;
+    if (selectedOption === correctAnswer) {
+        // 正解処理
+        score += 10;
+        button.classList.add('correct');
+        resultMessage.textContent = '⭕ 正解！';
+        resultMessage.style.color = '#28a745';
+        scoreDisplay.textContent = `🏆 スコア: ${score}`;
+    } else {
+        // 不正解処理
+        lives -= 1;
+        button.classList.add('incorrect');
+        resultMessage.textContent = `❌ 不正解... 正解は「${correctAnswer}」でした。`;
+        resultMessage.style.color = '#dc3545';
         
-        // テキストクリックで完了/未完了を切り替え
-        taskTextSpan.addEventListener('click', () => {
-            taskItem.classList.toggle('completed');
-            saveTasks(); // 状態を保存
+        // 正解のボタンをハイライト
+        document.querySelectorAll('.option-button').forEach(btn => {
+            if (btn.textContent === correctAnswer) {
+                btn.classList.add('correct');
+            }
         });
-
-        // 削除ボタンを作成
-        const deleteBtn = document.createElement('button');
-        deleteBtn.className = 'delete-btn';
-        deleteBtn.textContent = 'X';
-        
-        // 削除ボタンクリックでタスクを削除
-        deleteBtn.addEventListener('click', () => {
-            taskItem.remove(); // DOMから削除
-            saveTasks();     // 削除後の状態を保存
-        });
-
-        // li要素にテキストとボタンを追加
-        taskItem.appendChild(taskTextSpan);
-        taskItem.appendChild(deleteBtn);
-
-        // ul（タスク一覧）にli要素を追加
-        taskList.appendChild(taskItem);
+        updateLivesDisplay();
     }
-
-    // 2. タスクをローカルストレージに保存する関数
-    function saveTasks() {
-        const tasks = [];
-        // 現在のDOMの状態を読み取って配列に保存
-        document.querySelectorAll('.task-item').forEach(item => {
-            tasks.push({
-                text: item.querySelector('.task-text').textContent,
-                completed: item.classList.contains('completed')
-            });
-        });
-        
-        // 配列をJSON文字列に変換してローカルストレージに保存
-        localStorage.setItem('todoTasks', JSON.stringify(tasks));
+    
+    resultMessage.classList.remove('hidden');
+    
+    // ライフが残っているかチェック
+    if (lives > 0 && currentQuestionIndex < TOTAL_QUESTIONS - 1) {
+        nextButton.textContent = "次の問題へ";
+        nextButton.classList.remove('hidden');
+        nextButton.onclick = moveToNextQuestion;
+    } else {
+        // 最終問題の解答後、または残機が0になったとき
+        nextButton.textContent = "結果を見る";
+        nextButton.classList.remove('hidden');
+        nextButton.onclick = endQuiz;
     }
+}
 
-    // 3. ローカルストレージからタスクを読み込む関数
-    function loadTasks() {
-        // 保存されているデータを取得（なければnull）
-        const savedTasks = localStorage.getItem('todoTasks');
-        
-        if (savedTasks) {
-            // JSON文字列を配列にパース（変換）
-            const tasks = JSON.parse(savedTasks);
-            
-            // 配列の各要素を画面に描画
-            tasks.forEach(task => {
-                addTask(task.text, task.completed);
-            });
-        }
+// --- 7. 次の問題へ移動する ---
+function moveToNextQuestion() {
+    currentQuestionIndex++;
+    displayQuestion();
+}
+
+// --- 8. クイズを終了する ---
+function endQuiz() {
+    optionsList.innerHTML = '';
+    nextButton.classList.add('hidden');
+    
+    if (lives <= 0) {
+        questionText.textContent = 'ゲームオーバー...';
+        resultMessage.textContent = `残念！あなたの最終スコアは ${score} 点です。`;
+    } else {
+        questionText.textContent = '全問終了！';
+        resultMessage.textContent = `お疲れ様でした！あなたの最終スコアは ${score} 点です。`;
     }
+    resultMessage.style.color = '#333';
+    resultMessage.classList.remove('hidden');
+    questionCount.textContent = `終了`;
+
+    // リスタートボタンの追加
+    const restartButton = document.createElement('button');
+    restartButton.textContent = 'もう一度プレイする';
+    restartButton.className = 'next-button';
+    restartButton.style.marginTop = '40px';
+    restartButton.onclick = () => window.location.reload(); // ページをリロードして最初から
+    optionsList.appendChild(restartButton);
+}
+
+// --- 9. 初期化処理 ---
+// アプリがロードされたら、最初の問題を表示する
+document.addEventListener('DOMContentLoaded', () => {
+    updateLivesDisplay();
+    displayQuestion();
 });
